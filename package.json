@@ -1,0 +1,24 @@
+{
+  "name": "playwright_typescript_pom_e-commerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Efeyener10/playwright_typescript_pom_e-commerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Efeyener10/playwright_typescript_pom_e-commerce/issues"
+  },
+  "homepage": "https://github.com/Efeyener10/playwright_typescript_pom_e-commerce#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
+  }
+}
