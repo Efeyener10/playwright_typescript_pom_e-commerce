@@ -14,10 +14,11 @@ test.describe('Login Tests', () => {
     test.beforeEach(async ({page}) => {
         loginPage = new LoginPage(page);
         await loginPage.goTo();
+        await loginPage.acceptCookiesIfVisible();
     });
 
 // Succesfull login test
-    test('Succesfull login test', async ({page}) => {
+    test.only('Succesfull login test', async ({page}) => {
         await loginPage.login(validEmail, validPassword);
         await expect(page).toHaveURL('https://automationexercise.com/');
     })
