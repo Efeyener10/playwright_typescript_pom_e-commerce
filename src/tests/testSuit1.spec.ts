@@ -2,9 +2,9 @@ import {test, expect} from '@playwright/test';
 import { LoginPage } from '../Pages/LoginPage';
 import { SignUpPage }  from '../Pages/SignUpPage';
 import { HomePage } from '../Pages/HomePage';
+import { testData } from '../utils/testData';
 
-const signUpName = 'Efe';
-const signUpEmail = 'xosiset472@noihse.com';
+
 
 test.describe('TestSuit1', () => {
     let loginPage: LoginPage;
@@ -12,19 +12,24 @@ test.describe('TestSuit1', () => {
     let signUpPage: SignUpPage;
 
     test.beforeEach(async ({page}) => {
-        homePage = new HomePage(page);
+        homePage = new HomePage(page, testData.signUpName);
         await homePage.goTo();
         await homePage.acceptCookiesIfVisible();
     });
 
-    test('Preparation for Signing Up', async ({page}) => {
+    test('Signing Up', async ({page}) => {
         loginPage = new LoginPage(page);
         signUpPage = new SignUpPage(page);
         await expect(page).toHaveURL('https://automationexercise.com/');
         await homePage.loginButton.click();
         await loginPage.verifySignUpHeader();
-        await loginPage.startSignup(signUpName, signUpEmail);
-})
+        await loginPage.startSignup(testData.signUpName, testData.signUpEmail);
+        await signUpPage.selectTitle('Mr');
+        await signUpPage.fillSignUpFormFields(testData.password, testData.country, testData.firstName, testData.lastName, testData.address, testData.state, testData.city, testData.zipCode, testData.mobileNumber);
+        await signUpPage.verifyAccountCreation();
+        await homePage.verifyLoggedInAs(testData.signUpName);
+        await homePage.deleteAccountProcess();
+    })
 
 })
 

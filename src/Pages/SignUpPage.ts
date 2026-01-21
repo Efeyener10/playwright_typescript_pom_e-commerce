@@ -16,27 +16,29 @@ export class SignUpPage extends BasePage {
     readonly specialOffersCheckBox: Locator;
     readonly accountCreatedNotification: Locator;
     readonly continueButton: Locator;
-    readonly titleMrCheckBox: Locator;
-    readonly titleMrsCheckBox: Locator;
+    readonly titleMr: Locator;
+    readonly titleMrs: Locator;
+    readonly enterAccountInfo: Locator;
 
     constructor(page: Page) {
         super(page);
-        this.signUpPasswordInput = page.locator('input[data-qa="password"');
-        this.signUpFirstNameInput = page.locator('input[data-qa="first_name"');
-        this.signUpLastNameInput = page.locator('input[data-qa="last_name"');
-        this.signUpAddressInput = page.locator('input[data-qa="address"');
-        this.signUpCountryDropdown = page.locator('select[data-qa="country"');
-        this.signUpStateInput = page.locator('input[data-qa="state"');
-        this.signUpCityInput = page.locator('input[data-qa="city"');
-        this.signUpZipCodeInput = page.locator('input[data-qa="zipcode"');
-        this.signUpMobileNumberInput = page.locator('input[data-qa="mobile_number"');
-        this.createAccountButton = page.locator('button[data-qa="create-account"');
+        this.signUpPasswordInput = page.locator('input[data-qa="password"]');
+        this.signUpFirstNameInput = page.locator('input[data-qa="first_name"]');
+        this.signUpLastNameInput = page.locator('input[data-qa="last_name"]');
+        this.signUpAddressInput = page.locator('input[data-qa="address"]');
+        this.signUpCountryDropdown = page.locator('select[data-qa="country"]');
+        this.signUpStateInput = page.locator('input[data-qa="state"]');
+        this.signUpCityInput = page.locator('input[data-qa="city"]');
+        this.signUpZipCodeInput = page.locator('input[data-qa="zipcode"]');
+        this.signUpMobileNumberInput = page.locator('input[data-qa="mobile_number"]');
+        this.createAccountButton = page.locator('button[data-qa="create-account"]');
         this.newsletterCheckBox = page.locator('input[id="newsletter"]');
         this.specialOffersCheckBox = page.locator('input[id="optin"]');
-        this.accountCreatedNotification =  page.locator('input[data-qa="account-created"');
-        this.continueButton =  page.locator('input[data-qa="continue-button"');
-        this.titleMrCheckBox = page.locator('label:has-text("Mr.") input[data-qa="title"]');
-        this.titleMrsCheckBox = page.locator('label:has-text("Mrs.") input[data-qa="title"]');
+        this.accountCreatedNotification = page.locator('h2:has-text("Account Created!")');
+        this.continueButton = page.locator('a:has-text("Continue")');
+        this.titleMr = page.locator('input#id_gender1');
+        this.titleMrs = page.locator('input#id_gender2');
+        this.enterAccountInfo = page.locator('b:has-text("Enter Account Information")');
     }   
 
     async goTo(){
@@ -47,11 +49,11 @@ export class SignUpPage extends BasePage {
         await this.signUpCountryDropdown.selectOption(countryValue);
     }
 
-    async selectTitle(gender: string){
-        if (gender.toLowerCase() === 'mr') {
-            await this.titleMrCheckBox.click();
+    async selectTitle(title: 'Mr'| 'Mrs'){
+        if (title === 'Mr') {
+            await this.titleMr.click();
         } else {
-            await this.titleMrsCheckBox.click();
+            await this.titleMrs.click();
         }
     }
 
@@ -63,8 +65,9 @@ export class SignUpPage extends BasePage {
         await this.specialOffersCheckBox.setChecked(true);
     }
 
-    async fillRequiredFields(gender: string, password: string, country: string, first_name: string, last_name: string, address: string, state: string, city: string, zipcode: string, mobile_number:string){
-        await this.selectTitle(gender);
+    async fillSignUpFormFields(password: string, country: string, first_name: string, last_name: string, address: string, state: string, city: string, zipcode: string, mobile_number:string){
+        await expect(this.enterAccountInfo).toBeVisible();
+        await expect(this.enterAccountInfo).toContainText("Enter Account Information");
         await this.signUpPasswordInput.fill(password);
         await this.signUpFirstNameInput.fill(first_name);
         await this.signUpLastNameInput.fill(last_name);
