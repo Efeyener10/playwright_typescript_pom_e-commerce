@@ -29,10 +29,22 @@ async goTo() {
     await this.page.goto('https://automationexercise.com/login');
  }
 
- async login(email:string, password:string) {
+ async fillLoginEmail(email: string) {
     await this.loginEmailInput.fill(email);
+ }
+
+ async fillLoginPassword(password: string) {
     await this.loginPasswordInput.fill(password);
+ }
+
+ async clickLoginButton() {
     await this.loginButton.click();
+ }
+
+ async login(email: string, password: string) {
+    await this.fillLoginEmail(email);
+    await this.fillLoginPassword(password);
+    await this.clickLoginButton();
  }
 
  async getEmailValidationMessage(): Promise<string> {
@@ -43,19 +55,47 @@ async goTo() {
         return message;
     }
 
-async verifyLoginHeader()  {
+async verifyLoginHeaderVisible()  {
     await expect(this.loginAccount).toBeVisible();
+}
+
+async verifyLoginHeaderText() {
     await expect(this.loginAccount).toHaveText('Login to your account');
 }
 
-async verifySignUpHeader() {
+async verifyLoginHeader()  {
+    await this.verifyLoginHeaderVisible();
+    await this.verifyLoginHeaderText();
+}
+
+async verifySignUpHeaderVisible() {
     await expect(this.newUserSignUp).toBeVisible();
+}
+
+async verifySignUpHeaderText() {
     await expect(this.newUserSignUp).toHaveText('New User Signup!');
 }
 
- async startSignup(name:string, email:string) {
+async verifySignUpHeader() {
+    await this.verifySignUpHeaderVisible();
+    await this.verifySignUpHeaderText();
+}
+
+ async fillSignUpName(name: string) {
     await this.signUpNameInput.fill(name);
+ }
+
+ async fillSignUpEmail(email: string) {
     await this.signUpEmailInput.fill(email);
+ }
+
+ async clickSignUpButton() {
     await this.signUpButton.click();
+ }
+
+ async startSignup(name: string, email: string) {
+    await this.fillSignUpName(name);
+    await this.fillSignUpEmail(email);
+    await this.clickSignUpButton();
  }
 }

@@ -35,12 +35,27 @@ export class HomePage extends BasePage {
     await expect(this.loggedInAsButton).toContainText(username);
   }
 
-  async deleteAccountProcess(){
+  async clickDeleteAccountButton(){
     await this.deleteAccountButton.click();
-    await expect(this.accountDeletedNotification).toBeVisible();
-    await expect(this.accountDeletedNotification).toHaveText('Account Deleted!');
-    await this.continueButtonForDeletion.click();
+  }
 
+  async verifyAccountDeletedVisible(){
+    await expect(this.accountDeletedNotification).toBeVisible();
+  }
+
+  async verifyAccountDeletedText(){
+    await expect(this.accountDeletedNotification).toHaveText('Account Deleted!');
+  }
+
+  async clickContinueButtonForDeletion(){
+    await this.continueButtonForDeletion.click();
+  }
+
+  async deleteAccountProcess(){
+    await this.clickDeleteAccountButton();
+    await this.verifyAccountDeletedVisible();
+    await this.verifyAccountDeletedText();
+    await this.clickContinueButtonForDeletion();
   }
 
 

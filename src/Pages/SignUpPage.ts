@@ -45,11 +45,53 @@ export class SignUpPage extends BasePage {
         await this.page.goto('https://automationexercise.com/signup');
     }
 
+    async waitForFormToLoad(){
+        await expect(this.enterAccountInfo).toBeVisible();
+        await expect(this.enterAccountInfo).toContainText("Enter Account Information");
+    }
+
     async selectCountry(countryValue: string){
         await this.signUpCountryDropdown.selectOption(countryValue);
     }
 
+    async fillPassword(password: string){
+        await this.signUpPasswordInput.fill(password);
+    }
+
+    async fillFirstName(firstName: string){
+        await this.signUpFirstNameInput.fill(firstName);
+    }
+
+    async fillLastName(lastName: string){
+        await this.signUpLastNameInput.fill(lastName);
+    }
+
+    async fillAddress(address: string){
+        await this.signUpAddressInput.fill(address);
+    }
+
+    async fillState(state: string){
+        await this.signUpStateInput.fill(state);
+    }
+
+    async fillCity(city: string){
+        await this.signUpCityInput.fill(city);
+    }
+
+    async fillZipCode(zipCode: string){
+        await this.signUpZipCodeInput.fill(zipCode);
+    }
+
+    async fillMobileNumber(mobileNumber: string){
+        await this.signUpMobileNumberInput.fill(mobileNumber);
+    }
+
+    async clickCreateAccountButton(){
+        await this.createAccountButton.click();
+    }
+
     async selectTitle(title: 'Mr'| 'Mrs'){
+        await expect(this.enterAccountInfo).toBeVisible();
         if (title === 'Mr') {
             await this.titleMr.click();
         } else {
@@ -65,27 +107,36 @@ export class SignUpPage extends BasePage {
         await this.specialOffersCheckBox.setChecked(true);
     }
 
-    async fillSignUpFormFields(password: string, country: string, first_name: string, last_name: string, address: string, state: string, city: string, zipcode: string, mobile_number:string){
-        await expect(this.enterAccountInfo).toBeVisible();
-        await expect(this.enterAccountInfo).toContainText("Enter Account Information");
-        await this.signUpPasswordInput.fill(password);
-        await this.signUpFirstNameInput.fill(first_name);
-        await this.signUpLastNameInput.fill(last_name);
-        await this.signUpAddressInput.fill(address);
-        await this.signUpStateInput.fill(state);
-        await this.signUpCityInput.fill(city);
-        await this.signUpZipCodeInput.fill(zipcode);
-        await this.signUpMobileNumberInput.fill(mobile_number)
+    async fillSignUpFormFields(password: string, country: string, first_name: string, last_name: string, address: string, state: string, city: string, zipcode: string, mobile_number: string){
+        await this.waitForFormToLoad();
+        await this.fillPassword(password);
+        await this.fillFirstName(first_name);
+        await this.fillLastName(last_name);
+        await this.fillAddress(address);
+        await this.fillState(state);
+        await this.fillCity(city);
+        await this.fillZipCode(zipcode);
+        await this.fillMobileNumber(mobile_number);
         await this.selectCountry(country);
-        await this.createAccountButton.click();
+        await this.clickCreateAccountButton();
+    }
 
+    async verifyAccountCreatedVisible(){
+        await expect(this.accountCreatedNotification).toBeVisible();
+    }
+
+    async verifyAccountCreatedText(){
+        await expect(this.accountCreatedNotification).toContainText("Account Created!");
+    }
+
+    async clickContinueButton(){
+        await this.continueButton.click();
     }
 
     async verifyAccountCreation(){
-        await expect(this.accountCreatedNotification).toBeVisible();
-        await expect(this.accountCreatedNotification).toContainText("Account Created!");
-        await this.continueButton.click();
-
+        await this.verifyAccountCreatedVisible();
+        await this.verifyAccountCreatedText();
+        await this.clickContinueButton();
     }
 
 }

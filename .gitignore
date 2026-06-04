@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Playwright test artifacts
+playwright-report/
+test-results/
+.playwright/
+
+# Build output
+dist/
+
+# Environment files
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
