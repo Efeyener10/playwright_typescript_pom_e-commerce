@@ -18,7 +18,7 @@ export default tseslint.config(
   },
   {
     ...playwright.configs['flat/recommended'],
-    files: ['tests/**/*.ts', 'src/legacy/tests/**/*.ts'],
+    files: ['tests/**/*.ts'],
     rules: {
       ...playwright.configs['flat/recommended'].rules,
       'playwright/no-focused-test': 'error',

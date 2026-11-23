@@ -9,7 +9,9 @@ export default defineConfig({
   forbidOnly: isCI,
   // Retries only on CI: locally you want to see flakiness, not hide it.
   retries: isCI ? 2 : 0,
-  workers: isCI ? 2 : undefined,
+  // automationexercise.com is a free shared demo site: it answers 503 or a
+  // "queue full" page when hammered. Two workers keeps us polite and stable.
+  workers: 2,
   timeout: 60_000,
   expect: { timeout: 10_000 },
 
@@ -41,12 +43,6 @@ export default defineConfig({
       // API tests use the `request` fixture only; no browser is launched.
       name: 'api',
       testDir: './tests/api',
-    },
-    {
-      // Old January suite, kept runnable until phase 3 replaces it.
-      name: 'legacy',
-      testDir: './src/legacy/tests',
-      use: { ...devices['Desktop Chrome'] },
     },
   ],
 });

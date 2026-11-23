@@ -2,7 +2,10 @@ import { test as base, expect } from '@playwright/test';
 import { AutomationExerciseApi } from '@api/AutomationExerciseApi';
 import { buildUser } from '@data/userFactory';
 import type { User } from '@data/types';
+import { AccountStatusPage } from '@pages/AccountStatusPage';
 import { HomePage } from '@pages/HomePage';
+import { LoginPage } from '@pages/LoginPage';
+import { SignupPage } from '@pages/SignupPage';
 
 /**
  * Third-party ad, tracking and consent scripts. Google "vignette" ads cover the
@@ -16,7 +19,15 @@ type Fixtures = {
   api: AutomationExerciseApi;
   /** A fresh account created through the API before the test and deleted after it. */
   registeredUser: User;
+  /**
+   * Call with a user a test creates itself (e.g. through the UI signup form).
+   * The fixture deletes it via the API after the test, pass or fail.
+   */
+  cleanupUser: (user: User) => void;
   homePage: HomePage;
+  loginPage: LoginPage;
+  signupPage: SignupPage;
+  accountStatusPage: AccountStatusPage;
 };
 
 export const test = base.extend<Fixtures>({
@@ -48,8 +59,26 @@ export const test = base.extend<Fixtures>({
     expect([200, 404]).toContain(body.responseCode);
   },
 
+  cleanupUser: async ({ api }, use) => {
+    const users: User[] = [];
+    await use((user) => users.push(user));
+    for (const user of users) {
+      const body = await api.deleteAccount(user.email, user.password);
+      expect([200, 404]).toContain(body.responseCode);
+    }
+  },
+
   homePage: async ({ page }, use) => {
     await use(new HomePage(page));
+  },
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+  signupPage: async ({ page }, use) => {
+    await use(new SignupPage(page));
+  },
+  accountStatusPage: async ({ page }, use) => {
+    await use(new AccountStatusPage(page));
   },
 });
 
