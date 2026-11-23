@@ -1,10 +1,15 @@
 {
   "name": "playwright_typescript_pom_e-commerce",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Playwright + TypeScript Page Object Model framework for automationexercise.com",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "playwright test",
+    "test:ui": "playwright test --project=ui",
+    "test:api": "playwright test --project=api",
+    "test:headed": "playwright test --headed",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "report": "playwright show-report"
   },
   "repository": {
     "type": "git",
@@ -19,6 +24,11 @@
   },
   "homepage": "https://github.com/Efeyener10/playwright_typescript_pom_e-commerce#readme",
   "devDependencies": {
-    "@playwright/test": "^1.57.0"
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.20.5",
+    "eslint": "9.39.5",
+    "eslint-plugin-playwright": "2.12.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.74.0"
   }
 }
