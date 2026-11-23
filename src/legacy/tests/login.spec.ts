@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import { LoginPage } from '../Pages/LoginPage';
+import { LoginPage } from '../pages/LoginPage';
 
 const validEmail = 'sefayif947@roratu.com';
 const validPassword = 'Fener.1907';

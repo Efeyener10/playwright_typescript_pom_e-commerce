@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 const isCI = !!process.env.CI;
 
 export default defineConfig({
-  testDir: './src/tests',
+  testDir: './tests',
   fullyParallel: true,
   // Fail the run if a `test.only` slips into a commit.
   forbidOnly: isCI,
@@ -22,6 +22,9 @@ export default defineConfig({
     baseURL: process.env.BASE_URL ?? 'https://automationexercise.com',
     locale: 'en-US',
     testIdAttribute: 'data-qa',
+    // Honor a corporate/CI proxy if one is set. Browsers pick it up, but the
+    // API `request` fixture only uses a proxy when it is configured here.
+    proxy: process.env.HTTPS_PROXY ? { server: process.env.HTTPS_PROXY } : undefined,
     // Keep evidence for failed tests only (works with or without retries).
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -31,6 +34,18 @@ export default defineConfig({
   projects: [
     {
       name: 'ui',
+      testDir: './tests/ui',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      // API tests use the `request` fixture only; no browser is launched.
+      name: 'api',
+      testDir: './tests/api',
+    },
+    {
+      // Old January suite, kept runnable until phase 3 replaces it.
+      name: 'legacy',
+      testDir: './src/legacy/tests',
       use: { ...devices['Desktop Chrome'] },
     },
   ],
